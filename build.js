@@ -16,7 +16,7 @@
     
     // command line configuration
     var argv = optimist
-	.usage('Usage: build.sh [-u] [-o=<path>] <files>')
+	.usage('Usage: vivid-build [-u] [-o=<path>] <files>')
 
 	.string('o')
 	.alias('o', 'out')
