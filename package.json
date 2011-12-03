@@ -5,7 +5,7 @@
   "version": "0.0.3",
   "repository": {
     "type": "git",
-    "url": "git://github.com/vtsvang/vivid-builder.git"
+    "url": "https://github.com/vtsvang/vivid-builder"
   },
   "engines": {
     "node": "~0.5 || 0.6"
