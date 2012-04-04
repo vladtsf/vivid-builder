@@ -2,7 +2,8 @@
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "name": "vivid-builder",
   "description": "Simple JavaScript packages builder",
-  "version": "0.0.666666"repository": {
+  "version": "0.0.6",
+  "repository": {
     "type": "git",
     "url": "https://github.com/vtsvang/vivid-builder"
   },
