@@ -1,10 +1,10 @@
-(function($, w, d, undefined) {
+(function($, w, d) {
 	
-//<!include file="./foo.js"-->
-//<!include file="./bar.js"-->
+	include ('./foo.js');
+	include ('./bar.js')
 
-alert(foo());
-alert(bar());
+	alert(foo());
+	alert(bar());
 
-	
+
 })(jQuery, window, document);

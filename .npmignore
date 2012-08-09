@@ -1,2 +1,5 @@
 .git
 .gitignore
+src/
+examples/
+Makefile

@@ -2,7 +2,12 @@
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "name": "vivid-builder",
   "description": "Simple JavaScript packages builder",
-  "version": "0.0.6",
+  "keywords": [
+    "packager",
+    "vivid",
+    "coffeescript"
+  ],
+  "version": "0.0.7",
   "repository": {
     "type": "git",
     "url": "https://github.com/vtsvang/vivid-builder"
@@ -11,11 +16,14 @@
     "node": ">=0.5"
   },
   "bin"     : {
-    "vivid-builder" : "./build.js"
+    "vivid-builder" : "./build"
   },
   "dependencies": {
-    "optimist" : ">=0.2.8",
-    "uglify-js" : ">=1.1.1"
+    "uglify-js" : ">=1.1.1",
+    "commander": ">=1.0.1",
+    "colors": ">=0.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "coffee-script": ">=1.3.3"
+  }
 }
