@@ -3,14 +3,17 @@ path = require 'path'
 events = require 'events'
 
 class Template extends events.EventEmitter
-	includeExp = /\<\!include\s+file\="[^"]*"\-\-\>/gi
-	fileExp = /file="([^"]*)"/i
+	includeExp = null
+	fileExp = /\(\s*[\'\"]([.\/\\\w\s]+)[\'\"]\s*\)/i
+	headExp = /(^|[^\\w])/
 	position = 0
 
 	output: ''
 	deps: {}
 
-	constructor: (@file) ->
+	constructor: (@file, @token) ->
+		includeExp = new RegExp "(^|[^\\w])#{@token||'include'}\\s*\\(\\s*[\\'\\\"][.\\/\\\\\\w\\s]+[\\'\\\"]\\s*\\);?", 'gi'
+
 		fs.readFile @file, 'utf8', (err, @rawContent) => 
 			if err
 				throw err
@@ -25,8 +28,9 @@ class Template extends events.EventEmitter
 		@
 
 	dep: (file, cb) ->
+		# @todo: fix circular dependencies
 		fullPath = path.join @basedir, file
-		tpl = new Template fullPath
+		tpl = new Template fullPath, @token
 		tpl.on 'compiled', =>
 			@deps[file] = tpl.output
 			
@@ -40,7 +44,7 @@ class Template extends events.EventEmitter
 			@dep @includes[position], =>
 				@output = @rawContent.replace includeExp, (include, offset, all) =>
 					file = include.match(fileExp)[1]
-					@deps[file]
+					include.match(headExp)[0] + @deps[file]
 				@emit 'compiled'
 		else
 			@output = @rawContent

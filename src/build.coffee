@@ -13,7 +13,8 @@ program
 	.usage('[options] <file ...>')
 	.option('-o, --out [dir]', 'Output directory')
 	.option('-u, --uglify', 'Compress with ugilfy.js', on)
-	.option('-v, --verbose', 'Display building status', on)
+	.option('-v, --verbose', 'Display building messages', on)
+	.option('-i, --include-function <function>', 'Including function name', 'include')
 	.parse(process.argv);
 
 
@@ -25,7 +26,7 @@ for template, idx in templates
 			console.error "[building: error]".red + " no such file #{template}"
 			process.exit(1)
 		else
-			tpl = new Template(resolvedPath)
+			tpl = new Template resolvedPath, program.includeFunction
 			tpl.on 'compiled', ->
 				if program.out?
 					fs.realpath program.out, (err, out) ->

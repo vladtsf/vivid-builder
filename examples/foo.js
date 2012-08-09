@@ -1,4 +1,4 @@
 function foo () {
-	<!include file="./bar.js"-->
+	include("./bar.js")
     return 'foo';
 }

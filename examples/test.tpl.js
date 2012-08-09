@@ -1,7 +1,5 @@
-(function($, w, d, undefined) {
-
-<!include file="./foo.js"-->
-<!include file="./bar.js"-->
+include ('./foo.js');
+include ('./bar.js')
 
 alert(foo());
 alert(bar());
