@@ -20,6 +20,16 @@ program
 
 templates = program.args
 
+uglify = (code) ->
+	jsp = require("uglify-js").parser
+	pro = require("uglify-js").uglify
+
+	ast = jsp.parse(code); # parse code and get the initial AST
+	ast = pro.ast_mangle(ast); # get a new AST with mangled names
+	ast = pro.ast_squeeze(ast); # get an AST with compression optimizations
+	
+	pro.gen_code(ast);
+
 for template, idx in templates
 	fs.realpath template, (err, resolvedPath) ->
 		if err
@@ -28,6 +38,8 @@ for template, idx in templates
 		else
 			tpl = new Template resolvedPath, program.includeFunction
 			tpl.on 'compiled', ->
+				output = if program.uglify then uglify tpl.output else tpl.output
+
 				if program.out?
 					fs.realpath program.out, (err, out) ->
 						if err
@@ -35,11 +47,11 @@ for template, idx in templates
 							process.exit(1)
 
 						save = path.join(out, path.basename resolvedPath)
-						fs.writeFile save, tpl.output, (err) ->
+						fs.writeFile save, output, (err) ->
 							if err
 								console.error "[building: error]".red + " can't #{save} file #{template}"
 								process.exit(1)
 							else if program.verbose
 								console.log "[building: success]".green + " #{template}"
 				else
-					util.print tpl.output
+					util.print output
