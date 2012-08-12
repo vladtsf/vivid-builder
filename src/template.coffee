@@ -11,8 +11,14 @@ class Template extends events.EventEmitter
 	output: ''
 	deps: {}
 
-	constructor: (@file, @token) ->
-		includeExp = new RegExp "(^|[^\\w])#{@token||'include'}\\s*\\(\\s*[\\'\\\"][.\\/\\\\\\w\\s]+[\\'\\\"]\\s*\\);?", 'gi'
+	constructor: (@file, @token, @deprecated = off) ->
+		if deprecated
+			# for deprecated templates
+			includeExp = /\/\/\<\!include\s+file\="[^"]*"\-\-\>/gi
+			fileExp = /file="([^"]*)"/i
+			headExp = /(^)/
+		else
+			includeExp = new RegExp "(^|[^\\w])#{@token||'include'}\\s*\\(\\s*[\\'\\\"][.\\/\\\\\\w\\s]+[\\'\\\"]\\s*\\);?", 'gi'
 
 		fs.readFile @file, 'utf8', (err, @rawContent) => 
 			if err
@@ -30,7 +36,7 @@ class Template extends events.EventEmitter
 	dep: (file, cb) ->
 		# @todo: fix circular dependencies
 		fullPath = path.join @basedir, file
-		tpl = new Template fullPath, @token
+		tpl = new Template fullPath, @token, @deprecated
 		tpl.on 'compiled', =>
 			@deps[file] = tpl.output
 			

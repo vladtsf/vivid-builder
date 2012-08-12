@@ -14,6 +14,7 @@ program
 	.option('-o, --out [dir]', 'Output directory')
 	.option('-u, --uglify', 'Compress with ugilfy.js', on)
 	.option('-v, --verbose', 'Display building messages', on)
+	.option('-d, --deprecated', 'Use deprecated inclusion syntax', off)
 	.option('-i, --include-function <function>', 'Including function name', 'include')
 	.parse(process.argv);
 
@@ -36,7 +37,7 @@ for template, idx in templates
 			console.error "[building: error]".red + " no such file #{template}"
 			process.exit(1)
 		else
-			tpl = new Template resolvedPath, program.includeFunction
+			tpl = new Template resolvedPath, program.includeFunction, program.deprecated
 			tpl.on 'compiled', ->
 				output = if program.uglify then uglify tpl.output else tpl.output
 
