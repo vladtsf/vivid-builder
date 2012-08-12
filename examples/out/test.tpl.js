@@ -1,9 +1,17 @@
-(function($, w, d, undefined) {
+(function($, w, d) {
+	
+function foo () {
+function bar () {
+    return 'bar';
+}
+    return 'foo';
+}
+function bar () {
+    return 'bar';
+}
 
-oinclude ('./foo.js');undefined
-
-alert(foo());
-alert(bar());
+	alert(foo());
+	alert(bar());
 
 
 })(jQuery, window, document);
